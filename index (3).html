@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control de Concentración · Semilíquidos — MFO Advisors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2025;         /* fondo principal, igual al tema MFO */
+    --panel:#2A3037;       /* paneles / cards */
+    --panel-2:#343B43;     /* cards hover / borde interno */
+    --slate:#5D7082;       /* gris-azulado estructural */
+    --slate-lt:#8FA0AD;    /* texto secundario sobre fondo oscuro */
+    --sage:#7BC143;        /* verde MFO, acento principal */
+    --sage-dim:#5B9A2C;
+    --sage-tint:#2E3B24;   /* verde muy oscuro para fills sutiles */
+    --clay:#E07F5C;        /* alerta / desviación */
+    --clay-tint:#4A2E24;
+    --line:#3A4148;
+    --white:#F2F1ED;
+    --oswald:'Oswald', sans-serif;
+    --barlow:'Barlow', sans-serif;
+    --mono:'Spline Sans Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--white);
+    font-family:var(--barlow);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* ================= HEADER ================= */
+  header{
+    padding:34px 0 30px;
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:34px;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:34px; height:34px; border:2px solid var(--sage); border-radius:2px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--oswald); font-weight:600; color:var(--sage); font-size:15px;
+  }
+  .brand-name{font-family:var(--oswald); letter-spacing:.06em; font-size:14px; color:var(--slate-lt); text-transform:uppercase;}
+  .brand-name b{color:var(--white);}
+  .datebadge{
+    font-family:var(--mono); font-size:12px; color:var(--slate-lt);
+    border:1px solid var(--line); border-radius:20px; padding:6px 14px;
+  }
+  .datebadge b{color:var(--sage);}
+
+  .kicker-line{display:flex; align-items:center; gap:18px; margin-bottom:8px;}
+  .kicker-line .rule{flex:1; height:1px; background:var(--sage); opacity:.5;}
+  .kicker{
+    font-family:var(--oswald); text-transform:uppercase; letter-spacing:.22em;
+    font-size:13px; color:var(--sage); text-align:center; white-space:nowrap;
+  }
+  h1{
+    font-family:var(--oswald);
+    font-weight:600;
+    font-size:clamp(30px,4.4vw,48px);
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    margin:6px 0 14px;
+  }
+  .subtitle{
+    color:var(--slate-lt);
+    font-size:15px;
+    text-align:center;
+    max-width:600px;
+    margin:0 auto;
+  }
+  .headmeta{
+    display:flex; justify-content:center; gap:0; margin-top:30px; flex-wrap:wrap;
+  }
+  .headmeta div{
+    font-family:var(--mono); font-size:11px; color:var(--slate-lt);
+    text-align:center; padding:0 28px; border-left:1px solid var(--line);
+  }
+  .headmeta div:first-child{border-left:none;}
+  .headmeta b{color:var(--white); font-size:16px; font-family:var(--oswald); display:block; margin-top:4px; letter-spacing:.03em;}
+
+  /* ================= SECTION HEADER (signature motif) ================= */
+  .section{padding:56px 0;}
+  .section + .section{border-top:1px solid var(--line);}
+  .section-head{
+    display:flex; align-items:center; gap:18px; margin-bottom:36px;
+    justify-content:center;
+  }
+  .section-head .rule{flex:1; height:1px; background:var(--sage); opacity:.45; max-width:220px;}
+  .section-title{
+    font-family:var(--oswald); text-transform:uppercase; letter-spacing:.14em;
+    font-size:clamp(20px,2.4vw,28px); color:var(--sage); white-space:nowrap; font-weight:500;
+  }
+  .section-note{
+    text-align:center; color:var(--slate-lt); font-size:13px; margin:-24px 0 34px;
+  }
+
+  /* ================= KPI ROW ================= */
+  .kpi-row{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+  .kpi-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:28px 26px;
+    text-align:center;
+  }
+  .kpi-card + .kpi-card{border-left:none;}
+  .kpi-label{
+    font-family:var(--oswald); text-transform:uppercase; letter-spacing:.08em;
+    font-size:12px; color:var(--slate-lt); margin-bottom:14px;
+  }
+  .kpi-value{
+    font-family:var(--mono); font-weight:600; font-size:clamp(24px,3vw,36px);
+    color:var(--white); font-variant-numeric:tabular-nums;
+  }
+  .kpi-value.accent{color:var(--sage);}
+  .kpi-sub{font-size:12px; color:var(--slate-lt); margin-top:10px;}
+  @media (max-width:800px){ .kpi-row{grid-template-columns:1fr;} .kpi-card{border-left:1px solid var(--line);} }
+
+  /* ================= TWO COLUMN ================= */
+  .twocol{display:grid; grid-template-columns:1.05fr 1fr; gap:50px;}
+  @media (max-width:900px){ .twocol{grid-template-columns:1fr;} }
+
+  .subhead{
+    font-family:var(--oswald); text-transform:uppercase; letter-spacing:.08em;
+    font-size:14px; color:var(--white); margin-bottom:6px;
+  }
+  .subhead-note{font-size:12px; color:var(--slate-lt); margin-bottom:20px;}
+
+  .asset-row{
+    display:grid; grid-template-columns:96px 1fr 108px 74px;
+    align-items:center; gap:14px; padding:13px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .asset-row:first-child{border-top:1px solid var(--line);}
+  .asset-name{font-family:var(--oswald); font-size:13px; letter-spacing:.03em; text-transform:uppercase;}
+  .asset-bar-track{height:7px; background:var(--panel); border-radius:2px; overflow:hidden;}
+  .asset-bar-fill{height:100%; border-radius:2px;}
+  .asset-amount{font-family:var(--mono); font-size:13px; text-align:right; color:var(--slate-lt);}
+  .asset-pct{font-family:var(--mono); font-size:14px; text-align:right; font-weight:600;}
+
+  /* ---- diverging ruler (signature) ---- */
+  .ruler-block{margin-bottom:32px;}
+  .ruler-head{margin-bottom:10px;}
+  .ruler-title{font-family:var(--oswald); font-size:14px; letter-spacing:.03em; text-transform:uppercase; display:block; margin-bottom:4px;}
+  .ruler-figs{font-family:var(--mono); font-size:11px; color:var(--slate-lt); display:block;}
+  .ruler-track{position:relative; height:30px; background:var(--panel); border-radius:2px; margin-top:26px;}
+  .ruler-target{position:absolute; top:-6px; bottom:-6px; width:2px; background:var(--white);}
+  .ruler-target::after{
+    content:attr(data-label); position:absolute; top:-19px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:9px; color:var(--slate-lt); white-space:nowrap;
+  }
+  .ruler-fill{position:absolute; top:0; bottom:0; border-radius:2px; opacity:.4;}
+  .ruler-marker{position:absolute; top:-3px; width:3px; height:36px; border-radius:2px;}
+  .ruler-caption{font-family:var(--mono); font-size:10px; color:var(--slate-lt); margin-top:8px;}
+  .tag{
+    display:inline-block; font-family:var(--mono); font-size:10px; font-weight:600;
+    padding:3px 8px; border-radius:2px; margin-left:8px; letter-spacing:.02em;
+  }
+  .tag.over{background:var(--clay-tint); color:var(--clay);}
+  .tag.ok{background:var(--sage-tint); color:var(--sage);}
+
+  /* ================= FUND TICKETS ================= */
+  .tickets{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:900px){ .tickets{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .tickets{grid-template-columns:1fr;} }
+  .ticket{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:22px 22px 20px;
+    position:relative;
+    transition:border-color .15s ease;
+  }
+  .ticket:hover{border-color:var(--sage);}
+  .ticket::before{
+    content:''; position:absolute; left:22px; right:22px; top:58px;
+    border-top:1px dashed var(--line);
+  }
+  .ticket-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:26px;}
+  .ticket-name{font-family:var(--oswald); font-weight:600; font-size:20px; letter-spacing:.02em; color:var(--sage);}
+  .ticket-classes{font-family:var(--mono); font-size:10px; color:var(--slate-lt); margin-top:3px;}
+  .ticket-obj{font-family:var(--mono); font-size:10px; color:var(--slate-lt); text-align:right;}
+  .ticket-obj b{color:var(--white); font-size:13px; display:block; margin-top:2px;}
+  .ticket-row{display:flex; justify-content:space-between; padding:7px 0; font-size:13px; color:var(--slate-lt);}
+  .ticket-row .v{font-family:var(--mono); font-weight:600; color:var(--white); font-variant-numeric:tabular-nums;}
+  .ticket-alert{
+    margin-top:14px; padding:10px 12px; border-radius:2px;
+    background:var(--clay-tint); color:var(--clay);
+    font-size:11px; display:flex; justify-content:space-between; gap:8px; align-items:center;
+  }
+  .ticket-alert b{font-family:var(--mono); font-size:12px;}
+
+  footer{
+    padding:34px 0 60px; color:var(--slate-lt); font-size:11px;
+    font-family:var(--mono); border-top:1px solid var(--line); text-align:center;
+  }
+  footer .fmark{color:var(--sage); font-family:var(--oswald); letter-spacing:.1em; font-size:12px; margin-bottom:8px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div class="brand-name"><b>MFO</b> ADVISORS</div>
+      </div>
+      <div class="datebadge">SNAPSHOT <b>26-08-2026</b></div>
+    </div>
+
+    <div class="kicker-line">
+      <div class="rule"></div>
+      <div class="kicker">Control Interno</div>
+      <div class="rule"></div>
+    </div>
+    <h1>Concentración en Fondos Semilíquidos</h1>
+    <p class="subtitle">Exposición de la cartera a vehículos alternativos evergreen, diversificación por asset class frente a objetivo, y concentración por fondo y cliente.</p>
+
+    <div class="headmeta">
+      <div>ALIAS BAJO SEGUIMIENTO<b id="m-clientes">—</b></div>
+      <div>CON EXPOSICIÓN SEMILÍQUIDA<b id="m-participantes">—</b></div>
+      <div>FONDOS EVERGREEN MONITOREADOS<b>6</b></div>
+    </div>
+  </header>
+
+  <!-- ================= KPI ================= -->
+  <section class="section">
+    <div class="section-head"><div class="rule"></div><div class="section-title">Resumen General</div><div class="rule"></div></div>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Total en Alternativos</div>
+        <div class="kpi-value" id="k-alti">—</div>
+        <div class="kpi-sub">Clase de activo ALTI, todos los clientes</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Total en Semilíquidos</div>
+        <div class="kpi-value" id="k-semi">—</div>
+        <div class="kpi-sub">Solo fondos confirmados en mapeo maestro</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">% Semilíquidos / Alternativos</div>
+        <div class="kpi-value accent" id="k-pct">—</div>
+        <div class="kpi-sub">Parte evergreen del total alternativo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ASSET CLASS + DEVIATION ================= -->
+  <section class="section">
+    <div class="section-head"><div class="rule"></div><div class="section-title">Composición y Desviación</div><div class="rule"></div></div>
+    <div class="twocol">
+      <div>
+        <div class="subhead">Monto y % por Asset Class</div>
+        <div class="subhead-note">Sobre el total semilíquido de la cartera</div>
+        <div id="asset-rows"></div>
+      </div>
+      <div>
+        <div class="subhead">Objetivo vs. Actual Promedio</div>
+        <div class="subhead-note">Promedio entre los <span id="ruler-n">—</span> alias con exposición semilíquida · objetivo PE 60% · PD 30% · RE 10%</div>
+        <div id="rulers"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FUND SECTION ================= -->
+  <section class="section">
+    <div class="section-head"><div class="rule"></div><div class="section-title">Exposición por Fondo</div><div class="rule"></div></div>
+    <p class="section-note">Objetivo de concentración por alias: <b style="color:var(--white)">3%</b> del patrimonio total en cada fondo individual</p>
+    <div class="tickets" id="tickets"></div>
+  </section>
+
+  <footer>
+    <div class="fmark">MFO Advisors</div>
+    Generado a partir de "Allocation por Alias" y las hojas de control por fondo (REIF · TPF · GPA · BCRED · OCIC · KPEC).<br>
+    Datos estáticos al snapshot indicado — actualizar el JSON embebido tras cada recálculo del Excel.
+  </footer>
+</div>
+
+<script>
+const DATA = {"kpi": {"n_clientes": 251, "total_alti": 896578989.28, "total_semi": 87333602.15, "pct_semi_alti": 0.09740759397020164}, "asset_amounts": {"RE": 12906581.95, "PD": 46414615.27, "PE": 12046913.96, "Infra": 413043.14, "Multi": 15552447.83}, "asset_pct": {"RE": 0.14778483461419895, "PD": 0.5314634244706922, "PE": 0.13794133830995314, "Infra": 0.004729487045439589, "Multi": 0.1780809155597162}, "deviations": {"PE": {"target": 0.6, "avg_actual": 0.20696767982558945, "avg_dev": -0.39303232017441053, "avg_abs_dev": 0.4381031083418772, "n_over_10pp": 117}, "PD": {"target": 0.3, "avg_actual": 0.3622877358251998, "avg_dev": 0.06228773582519981, "avg_abs_dev": 0.3048172132707124, "n_over_10pp": 102}, "RE": {"target": 0.1, "avg_actual": 0.22462296028274753, "avg_dev": 0.12462296028274752, "avg_abs_dev": 0.20738344192800867, "n_over_10pp": 45}}, "n_participantes": 121, "funds": [{"Fondo": "REIF", "Objetivo": 0.03, "TotalExposicion": 11412010.690000003, "NClientesConExposicion": 68, "NClientesSobreObjetivo": 20, "MaxConcentracion": 0.1935024472449163, "MaxAlias": "PGHUERTA", "NClases": 6}, {"Fondo": "TPF", "Objetivo": 0.03, "TotalExposicion": 7797991.970000001, "NClientesConExposicion": 58, "NClientesSobreObjetivo": 21, "MaxConcentracion": 0.12128237540800568, "MaxAlias": "GVIAL", "NClases": 2}, {"Fondo": "GPA", "Objetivo": 0.03, "TotalExposicion": 5157657.350000001, "NClientesConExposicion": 41, "NClientesSobreObjetivo": 15, "MaxConcentracion": 0.05449008306833285, "MaxAlias": "PFERNANDEZ", "NClases": 2}, {"Fondo": "BCRED", "Objetivo": 0.03, "TotalExposicion": 16177880.280000001, "NClientesConExposicion": 56, "NClientesSobreObjetivo": 16, "MaxConcentracion": 0.13273921447983905, "MaxAlias": "GVIAL", "NClases": 5}, {"Fondo": "OCIC", "Objetivo": 0.03, "TotalExposicion": 7571702.49, "NClientesConExposicion": 52, "NClientesSobreObjetivo": 12, "MaxConcentracion": 0.3319461271641161, "MaxAlias": "MVAZQUEZ", "NClases": 2}, {"Fondo": "KPEC", "Objetivo": 0.03, "TotalExposicion": 6533256.61, "NClientesConExposicion": 29, "NClientesSobreObjetivo": 11, "MaxConcentracion": 0.08466969521298406, "MaxAlias": "RARIZTIA", "NClases": 3}]};
+
+const fmtUSD = n => 'US$' + Math.round(n).toLocaleString('en-US');
+const fmtPct = (n, d=1) => (n*100).toFixed(d) + '%';
+const fmtPctSigned = (n, d=1) => (n>=0?'+':'') + (n*100).toFixed(d) + 'pp';
+
+document.getElementById('m-clientes').textContent = DATA.kpi.n_clientes;
+document.getElementById('m-participantes').textContent = DATA.n_participantes;
+document.getElementById('k-alti').textContent = fmtUSD(DATA.kpi.total_alti);
+document.getElementById('k-semi').textContent = fmtUSD(DATA.kpi.total_semi);
+document.getElementById('k-pct').textContent = fmtPct(DATA.kpi.pct_semi_alti);
+document.getElementById('ruler-n').textContent = DATA.n_participantes;
+
+// ---------- Asset class rows ----------
+const ASSET_COLORS = { RE:'#5D7082', PD:'#E07F5C', PE:'#7BC143', Infra:'#8FA0AD', Multi:'#C9B25A' };
+const ASSET_LABELS = { RE:'Real Estate', PD:'Private Debt', PE:'Private Equity', Infra:'Infraestructura', Multi:'Multi Strategy' };
+const order = Object.entries(DATA.asset_amounts).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+const rowsEl = document.getElementById('asset-rows');
+order.forEach(k=>{
+  const pct = DATA.asset_pct[k];
+  const row = document.createElement('div');
+  row.className='asset-row';
+  row.innerHTML = `
+    <div class="asset-name" style="color:${ASSET_COLORS[k]}">${k}</div>
+    <div class="asset-bar-track"><div class="asset-bar-fill" style="width:${(pct*100).toFixed(1)}%; background:${ASSET_COLORS[k]}"></div></div>
+    <div class="asset-amount">${fmtUSD(DATA.asset_amounts[k])}</div>
+    <div class="asset-pct">${fmtPct(pct)}</div>
+  `;
+  rowsEl.appendChild(row);
+});
+
+// ---------- Diverging rulers (signature) ----------
+const rulersEl = document.getElementById('rulers');
+const DEV_ORDER = ['PE','PD','RE'];
+DEV_ORDER.forEach(k=>{
+  const d = DATA.deviations[k];
+  const target = d.target, actual = d.avg_actual;
+  const scaleMax = 0.8;
+  const pct = v => Math.min(100, Math.max(0,(v/scaleMax)*100));
+  const lo = Math.min(target, actual), hi = Math.max(target, actual);
+  const outOfBand = Math.abs(d.avg_dev) > 0.10;
+  const color = outOfBand ? 'var(--clay)' : 'var(--sage)';
+  const block = document.createElement('div');
+  block.className='ruler-block';
+  block.innerHTML = `
+    <div class="ruler-head">
+      <div class="ruler-title">${ASSET_LABELS[k]}
+        <span class="tag ${outOfBand?'over':'ok'}">${outOfBand?'FUERA DE RANGO':'DENTRO DE RANGO'}</span>
+      </div>
+      <div class="ruler-figs">actual ${fmtPct(actual)} · objetivo ${fmtPct(target)}</div>
+    </div>
+    <div class="ruler-track">
+      <div class="ruler-fill" style="left:${pct(lo)}%; width:${pct(hi)-pct(lo)}%; background:${color};"></div>
+      <div class="ruler-target" data-label="objetivo ${fmtPct(target,0)}" style="left:${pct(target)}%;"></div>
+      <div class="ruler-marker" style="left:${pct(actual)}%; background:${color};"></div>
+    </div>
+    <div class="ruler-caption">Desviación promedio: ${fmtPctSigned(d.avg_dev)} · ${d.n_over_10pp} de ${DATA.n_participantes} alias exceden ±10pp</div>
+  `;
+  rulersEl.appendChild(block);
+});
+
+// ---------- Fund tickets ----------
+const ticketsEl = document.getElementById('tickets');
+DATA.funds.forEach(f=>{
+  const overShare = f.NClientesConExposicion ? (f.NClientesSobreObjetivo/f.NClientesConExposicion) : 0;
+  const div = document.createElement('div');
+  div.className='ticket';
+  div.innerHTML = `
+    <div class="ticket-head">
+      <div>
+        <div class="ticket-name">${f.Fondo}</div>
+        <div class="ticket-classes">${f.NClases} clase${f.NClases>1?'s':''} de cuota rastreada${f.NClases>1?'s':''}</div>
+      </div>
+      <div class="ticket-obj">OBJETIVO<b>${fmtPct(f.Objetivo,0)}</b></div>
+    </div>
+    <div class="ticket-row"><div>Exposición total</div><div class="v">${fmtUSD(f.TotalExposicion)}</div></div>
+    <div class="ticket-row"><div>Clientes con posición</div><div class="v">${f.NClientesConExposicion}</div></div>
+    <div class="ticket-row"><div>Sobre objetivo (&gt;3%)</div><div class="v">${f.NClientesSobreObjetivo} <span style="color:var(--slate-lt);font-weight:400;">(${fmtPct(overShare,0)})</span></div></div>
+    <div class="ticket-alert">
+      <span>Mayor concentración</span>
+      <b>${f.MaxAlias} · ${fmtPct(f.MaxConcentracion)}</b>
+    </div>
+  `;
+  ticketsEl.appendChild(div);
+});
+</script>
+</body>
+</html>
